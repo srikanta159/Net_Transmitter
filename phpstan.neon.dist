@@ -1,0 +1,7 @@
+parameters:
+    level: 5
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        - '#Constant STREAM_CRYPTO_METHOD_.* not found#'
