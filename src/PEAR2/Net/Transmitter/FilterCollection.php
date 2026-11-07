@@ -127,6 +127,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return int The number of filters in the collection.
      */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return count($this->filters);
@@ -137,6 +138,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return bool TRUE if the collection is not empty, FALSE otherwise.
      */
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         return $this->seek(0);
@@ -149,6 +151,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return bool TRUE if the specified position is valid, FALSE otherwise.
      */
+    #[\ReturnTypeWillChange]
     public function seek($position)
     {
         $this->position = $position;
@@ -170,6 +173,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return bool TRUE if the new position is valid, FALSE otherwise.
      */
+    #[\ReturnTypeWillChange]
     public function next()
     {
         ++$this->position;
@@ -181,6 +185,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return string|false The name of the filter at the current position.
      */
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return $this->valid() ? $this->filters[$this->position][0] : false;
@@ -192,6 +197,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      * @return array|false An array of parameters for the filter at the current
      *     position, or FALSE if the position is not valid.
      */
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return $this->valid() ? $this->filters[$this->position][1] : false;
@@ -224,6 +230,7 @@ class FilterCollection implements \SeekableIterator, \Countable
      *
      * @return bool TRUE if the pointer is valid, FALSE otherwise.
      */
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return array_key_exists($this->position, $this->filters);

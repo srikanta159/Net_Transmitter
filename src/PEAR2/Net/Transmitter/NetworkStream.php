@@ -57,9 +57,29 @@ abstract class NetworkStream extends Stream
 
     /**
      * Used in {@link setCrypto()} to set encryption to TLS (exact version
-     * negotiated between 1.0 and 1.2).
+     * negotiated between 1.0 and 1.2 or higher).
      */
     const CRYPTO_TLS = 'TLS';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to TLSv1.0.
+     */
+    const CRYPTO_TLS1_0 = 'TLSv1_0';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to TLSv1.1.
+     */
+    const CRYPTO_TLS1_1 = 'TLSv1_1';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to TLSv1.2.
+     */
+    const CRYPTO_TLS1_2 = 'TLSv1_2';
+
+    /**
+     * Used in {@link setCrypto()} to set encryption to TLSv1.3.
+     */
+    const CRYPTO_TLS1_3 = 'TLSv1_3';
 
     /**
      * The type of stream. Can be either "_CLIENT" or "_SERVER".
@@ -111,17 +131,21 @@ abstract class NetworkStream extends Stream
         if (self::CRYPTO_OFF === $type) {
             $result = stream_socket_enable_crypto($this->stream, false);
         } else {
+            $constName = "STREAM_CRYPTO_METHOD_{$type}{$this->streamType}";
+            if (!defined($constName)) {
+                return false;
+            }
             $result = stream_socket_enable_crypto(
                 $this->stream,
                 true,
-                constant("STREAM_CRYPTO_METHOD_{$type}{$this->streamType}")
+                constant($constName)
             );
         }
 
         if ($result) {
             $this->crypto = $type;
         }
-        return $result;
+        return (bool) $result;
     }
 
     /**

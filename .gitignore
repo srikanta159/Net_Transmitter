@@ -1,1 +1,11 @@
-/vendor
+/vendor/
+composer.lock
+.phpunit.result.cache
+.phpunit.cache/
+*.cer
+*.pfx
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db

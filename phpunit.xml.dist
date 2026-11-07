@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         verbose="true">
+    <php>
+        <const name="REMOTE_HOSTNAME" value="::1" />
+        <const name="REMOTE_PORT" value="6666" />
+        <const name="LOCAL_HOSTNAME" value="::1" />
+        <const name="LOCAL_PORT" value="6667" />
+        <const name="SILENT_HOSTNAME" value="::1" />
+        <const name="SILENT_PORT" value="6668" />
+        <const name="CERTIFICATE_FILE" value="selfSigned" />
+        <ini name="default_socket_timeout" value="4" />
+    </php>
+    <testsuites>
+        <testsuite name="Unit">
+            <file>tests/UnconnectedTest.php</file>
+        </testsuite>
+        <testsuite name="All">
+            <file>tests/UnconnectedTest.php</file>
+            <file>tests/ClientTest.php</file>
+            <file>tests/ClientEncryptedTest.php</file>
+            <file>tests/ServerTest.php</file>
+            <file>tests/ServerEncryptedTest.php</file>
+        </testsuite>
+    </testsuites>
+    <coverage processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src/PEAR2/Net/Transmitter</directory>
+        </include>
+    </coverage>
+</phpunit>

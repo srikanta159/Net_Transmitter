@@ -12,12 +12,17 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     protected $client;
 
-    public function setUp($persist = false)
+    protected function createClient($persist = false)
     {
-        return $this->client = new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT, $persist);
+        return new TcpClient(REMOTE_HOSTNAME, REMOTE_PORT, $persist);
     }
 
-    public function tearDown()
+    protected function setUp(): void
+    {
+        $this->client = $this->createClient(false);
+    }
+
+    protected function tearDown(): void
     {
         $this->assertInstanceOf(__NAMESPACE__ . '\TcpClient', $this->client);
         if ($this->client->isPersistent()) {
@@ -280,8 +285,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     public function testPersistentClientConnection()
     {
-        $client = $this->setUp(true);
-        $this->setUp(true);
+        $client = $this->createClient(true);
+        $this->client = $this->createClient(true);
         $this->assertTrue($this->client->isFresh());
         $this->assertTrue($client->isFresh());
         $this->assertTrue($this->client->isPersistent());
@@ -407,7 +412,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     public function testSetChunk()
     {
         $defaultChunks = $this->client->getChunk();
-        $this->assertInternalType('array', $defaultChunks);
+        $this->assertTrue(is_array($defaultChunks));
         
         $this->assertFalse($this->client->getChunk('unknown direction'));
         $this->assertFalse($this->client->setChunk(1, 'unknown direction'));

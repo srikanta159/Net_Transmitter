@@ -12,9 +12,9 @@ require_once 'ClientTest.php';
  */
 class ClientEncryptedTest extends ClientTest
 {
-    public function setUp($persist = false)
+    protected function createClient($persist = false)
     {
-        return $this->client = new TcpClient(
+        return new TcpClient(
             REMOTE_HOSTNAME,
             REMOTE_PORT,
             $persist,

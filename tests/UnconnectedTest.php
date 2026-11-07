@@ -14,12 +14,12 @@ class UnconnectedTest extends \PHPUnit_Framework_TestCase
      */
     public static $defaultSocketTimeout;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         self::$defaultSocketTimeout = ini_set('default_socket_timeout', 2);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         ini_set('default_socket_timeout', self::$defaultSocketTimeout);
     }

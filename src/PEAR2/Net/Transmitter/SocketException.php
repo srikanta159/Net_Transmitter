@@ -23,6 +23,7 @@ namespace PEAR2\Net\Transmitter;
 /**
  * Used to enable any exception in chaining.
  */
+use Throwable;
 use Exception as E;
 
 /**
@@ -56,7 +57,7 @@ class SocketException extends StreamException
      *
      * @param string                   $message  The Exception message to throw.
      * @param int                      $code     The Exception code.
-     * @param E|null                   $previous Previous exception thrown,
+     * @param Throwable|E|null         $previous Previous exception thrown,
      *     or NULL if there is none.
      * @param int|string|resource|null $fragment The fragment up until the
      *     point of failure.
@@ -72,7 +73,7 @@ class SocketException extends StreamException
     public function __construct(
         $message = '',
         $code = 0,
-        E $previous = null,
+        $previous = null,
         $fragment = null,
         $errorNo = null,
         $errorStr = null

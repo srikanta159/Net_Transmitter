@@ -20,6 +20,7 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use Throwable;
 use Exception as E;
 
 /**
@@ -521,12 +522,14 @@ class Stream
 
             $w = $e = null;
             $r = array($this->stream);
+            $tv_sec = null === $sTimeout ? null : (int) $sTimeout;
+            $tv_usec = null === $sTimeout ? null : (int) $usTimeout;
             return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
-                $sTimeout,
-                $usTimeout
+                $tv_sec,
+                $tv_usec
             );
         }
         return false;
@@ -557,12 +560,14 @@ class Stream
 
             $r = $e = null;
             $w = array($this->stream);
+            $tv_sec = null === $sTimeout ? null : (int) $sTimeout;
+            $tv_usec = null === $sTimeout ? null : (int) $usTimeout;
             return 1 === @/* due to PHP bug #54563 */stream_select(
                 $r,
                 $w,
                 $e,
-                $sTimeout,
-                $usTimeout
+                $tv_sec,
+                $tv_usec
             );
         }
         return false;
@@ -596,7 +601,7 @@ class Stream
      *
      * @param string                   $message  The exception message.
      * @param int                      $code     The exception code.
-     * @param E|null                   $previous Previous exception thrown,
+     * @param Throwable|E|null         $previous Previous exception thrown,
      *     or NULL if there is none.
      * @param int|string|resource|null $fragment The fragment up until the
      *     point of failure.
@@ -610,7 +615,7 @@ class Stream
     protected function createException(
         $message,
         $code = 0,
-        E $previous = null,
+        $previous = null,
         $fragment = null
     ) {
         return new StreamException($message, $code, $previous, $fragment);

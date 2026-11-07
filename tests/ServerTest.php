@@ -27,7 +27,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     protected $conn;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
             ? '[' . LOCAL_HOSTNAME . ']' : LOCAL_HOSTNAME;
@@ -38,12 +38,12 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         fclose(static::$server);
     }
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->conn = new TcpServerConnection(
             static::$server,
@@ -52,10 +52,10 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             //1/*s*/
         );
         $this->assertSame(REMOTE_HOSTNAME, $this->conn->getPeerIP());
-        $this->assertInternalType('int', $this->conn->getPeerPort());
+        $this->assertTrue(is_int($this->conn->getPeerPort()));
     }
 
-    public function tearDown()
+    protected function tearDown(): void
     {
         unset($this->conn);
     }
@@ -377,7 +377,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSetChunk()
     {
         $defaultChunks = $this->conn->getChunk();
-        $this->assertInternalType('array', $defaultChunks);
+        $this->assertTrue(is_array($defaultChunks));
         
         $this->assertFalse($this->conn->getChunk('unknown direction'));
         $this->assertFalse($this->conn->setChunk(1, 'unknown direction'));

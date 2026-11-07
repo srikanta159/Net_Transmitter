@@ -24,10 +24,7 @@ namespace PEAR2\Net\Transmitter;
  * Base for this exception.
  */
 use RuntimeException;
-
-/**
- * Used to enable any exception in chaining.
- */
+use Throwable;
 use Exception as E;
 
 /**
@@ -59,7 +56,7 @@ class StreamException extends RuntimeException implements Exception
      *
      * @param string                   $message  The Exception message to throw.
      * @param int                      $code     The Exception code.
-     * @param E|null                   $previous Previous exception thrown,
+     * @param Throwable|E|null         $previous Previous exception thrown,
      *     or NULL if there is none.
      * @param int|string|resource|null $fragment The fragment up until the
      *     point of failure.
@@ -72,7 +69,7 @@ class StreamException extends RuntimeException implements Exception
     public function __construct(
         $message,
         $code,
-        E $previous = null,
+        $previous = null,
         $fragment = null
     ) {
         parent::__construct($message, $code, $previous);

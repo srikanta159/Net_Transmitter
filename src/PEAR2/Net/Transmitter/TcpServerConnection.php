@@ -20,6 +20,7 @@
  */
 namespace PEAR2\Net\Transmitter;
 
+use Throwable;
 use Exception as E;
 
 /**
@@ -73,24 +74,35 @@ class TcpServerConnection extends NetworkStream
 
         set_error_handler(array($this, 'handleError'));
         try {
+            $timeoutVal = null === $timeout ? null : (float) $timeout;
             parent::__construct(
-                stream_socket_accept($server, $timeout, $peerName)
+                stream_socket_accept($server, $timeoutVal, $peerName)
             );
             restore_error_handler();
-            $portString = strrchr($peerName, ':');
-            $this->peerPort = (int) substr($portString, 1);
-            $ipString = substr(
-                $peerName,
-                0,
-                strlen($peerName) - strlen($portString)
-            );
-            if (strpos($ipString, '[') === 0
-                && strpos(strrev($ipString), ']') === 0
-            ) {
-                $ipString = substr($ipString, 1, strlen($ipString) - 2);
+            if (is_string($peerName) && '' !== $peerName) {
+                $portString = strrchr($peerName, ':');
+                if (false !== $portString) {
+                    $this->peerPort = (int) substr($portString, 1);
+                    $ipString = substr(
+                        $peerName,
+                        0,
+                        strlen($peerName) - strlen($portString)
+                    );
+                    if (strpos($ipString, '[') === 0
+                        && strpos(strrev($ipString), ']') === 0
+                    ) {
+                        $ipString = substr($ipString, 1, strlen($ipString) - 2);
+                    }
+                    $this->peerIP = $ipString;
+                } else {
+                    $this->peerPort = 0;
+                    $this->peerIP = $peerName;
+                }
+            } else {
+                $this->peerPort = 0;
+                $this->peerIP = '';
             }
-            $this->peerIP = $ipString;
-        } catch (E $e) {
+        } catch (Throwable $e) {
             restore_error_handler();
             throw $this->createException(
                 'Failed to initialize connection.',
@@ -125,11 +137,11 @@ class TcpServerConnection extends NetworkStream
      *
      * Creates a new exception. Used by the rest of the functions in this class.
      *
-     * @param string      $message  The exception message.
-     * @param int         $code     The exception code.
-     * @param E|null      $previous Previous exception thrown, or NULL if there
+     * @param string                   $message  The exception message.
+     * @param int                      $code     The exception code.
+     * @param Throwable|E|null         $previous Previous exception thrown, or NULL if there
      *     is none.
-     * @param string|null $fragment The fragment up until the point of failure.
+     * @param string|null              $fragment The fragment up until the point of failure.
      *     NULL if the failure occurred before the operation started.
      *
      * @return SocketException The exception to then be thrown.
@@ -137,7 +149,7 @@ class TcpServerConnection extends NetworkStream
     protected function createException(
         $message,
         $code = 0,
-        E $previous = null,
+        $previous = null,
         $fragment = null
     ) {
         return new SocketException(

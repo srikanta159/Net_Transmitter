@@ -1,36 +1,63 @@
 {
-    "name": "pear2/net_transmitter",
-    "description": "A stream wrapper that ensures data integrity. Particularly useful for sockets.",
-    "keywords": ["integrity", "sockets", "networking", "pear2", "package", "network", "socket"],
-    "homepage": "http://pear2.github.com/Net_Transmitter/",
-    "license": "LGPL-2.1",
+    "name": "srikanta159/net_transmitter",
+    "description": "A stream wrapper that ensures data integrity for network streams and sockets in PHP.",
+    "keywords": [
+        "integrity",
+        "sockets",
+        "networking",
+        "stream",
+        "network",
+        "socket",
+        "tcp",
+        "tls",
+        "pear2"
+    ],
+    "homepage": "https://github.com/srikanta159/Net_Transmitter",
+    "license": "LGPL-2.1-only",
     "authors": [
+        {
+            "name": "Srikanta",
+            "email": "hello@srikantadas.com",
+            "role": "maintainer"
+        },
         {
             "name": "Vasil Rangelov",
             "email": "boen.robot@gmail.com",
-            "role": "lead"
+            "role": "original author"
         }
     ],
     "support": {
-        "issues": "http://github.com/pear2/Net_Transmitter/issues",
-        "wiki": "http://github.com/pear2/Net_Transmitter/wiki"
+        "issues": "https://github.com/srikanta159/Net_Transmitter/issues",
+        "source": "https://github.com/srikanta159/Net_Transmitter"
+    },
+    "replace": {
+        "pear2/net_transmitter": "self.version"
     },
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=7.4 || ^8.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable"
+        "phpunit/phpunit": "^9.5 || ^10.0 || ^11.0"
     },
     "suggest": {
-        "pear2/cache_shm": "Enables persistent connections",
-        "ext-apc": "This, APCu or Wincache is required for persistent connections.",
-        "ext-apcu": "This, APC or Wincache is required for persistent connections.",
-        "ext-wincache": "This, APC or APCu is required for persistent connections. Reccomended for Windows.",
-        "ext-openssl": "Enables encrypted connections."
+        "pear2/cache_shm": "Enables persistent connections with shared-memory locking",
+        "ext-apcu": "Required for persistent connections when using APCu SHM adapter",
+        "ext-openssl": "Enables encrypted TLS/SSL connections"
     },
     "autoload": {
+        "psr-4": {
+            "PEAR2\\Net\\Transmitter\\": "src/PEAR2/Net/Transmitter/"
+        },
         "psr-0": {
             "PEAR2\\Net\\Transmitter\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PEAR2\\Net\\Transmitter\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

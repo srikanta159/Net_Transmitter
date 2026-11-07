@@ -12,7 +12,7 @@ require_once 'ServerTest.php';
  */
 class ServerEncryptedTest extends ServerTest
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         //Start the server
         $hostname = strpos(LOCAL_HOSTNAME, ':') !== false
@@ -42,7 +42,7 @@ class ServerEncryptedTest extends ServerTest
         return;
     }
     
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         fclose(static::$server);
     }
