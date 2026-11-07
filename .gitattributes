@@ -6,7 +6,6 @@
 .gitignore export-ignore
 .editorconfig export-ignore
 phpunit.xml.dist export-ignore
-RELEASE-* export-ignore
 extrasetup.php export-ignore
 package.xml export-ignore
 packagexmlsetup.php export-ignore
